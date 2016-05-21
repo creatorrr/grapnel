@@ -9,6 +9,17 @@
  * Released under MIT License. See LICENSE.txt or http://opensource.org/licenses/MIT
 */
 
+/****
+ * Grapnel
+ * https://github.com/bytecipher/grapnel
+ *
+ * @author Greg Sabia Tucker <greg@bytecipher.io>
+ * @link http://bytecipher.io
+ * @version 0.6.3
+ *
+ * Released under MIT License. See LICENSE.txt or http://opensource.org/licenses/MIT
+*/
+
 !(function(root) {
 
     function Grapnel(opts) {
@@ -161,7 +172,7 @@
      */
     Grapnel.prototype.on = Grapnel.prototype.bind = function(event, handler) {
         var self = this,
-            events = event.split(' ');
+            events = typeof event === 'string' ? event.split(' ') : event;
 
         Grapnel._forEach(events, function(event) {
             if (self.events[event]) {
@@ -309,7 +320,7 @@
      * Build request parameters and allow them to be checked against a string (usually the current path)
      *
      * @param {String} Route
-     * @return {self} Request 
+     * @return {self} Request
      */
     function Request(route) {
         this.route = route;
@@ -321,7 +332,7 @@
     /**
      * Prevent a callback from being called
      *
-     * @return {self} CallStack 
+     * @return {self} CallStack
      */
     CallStack.prototype.preventDefault = function() {
         this.runCallback = false;
@@ -329,7 +340,7 @@
     /**
      * Prevent any future callbacks from being called
      *
-     * @return {self} CallStack 
+     * @return {self} CallStack
      */
     CallStack.prototype.stopPropagation = function() {
         this.propagateEvent = false;
@@ -337,7 +348,7 @@
     /**
      * Get parent state
      *
-     * @return {Object} Previous state 
+     * @return {Object} Previous state
      */
     CallStack.prototype.parent = function() {
         var hasParentEvents = !!(this.previousState && this.previousState.value && this.previousState.value == this.value);
@@ -346,7 +357,7 @@
     /**
      * Run a callback (calls to next)
      *
-     * @return {self} CallStack 
+     * @return {self} CallStack
      */
     CallStack.prototype.callback = function() {
         this.callbackRan = true;
@@ -358,7 +369,7 @@
      *
      * @param {Function|Array} Handler or a array of handlers
      * @param {Int} Index to start inserting
-     * @return {self} CallStack 
+     * @return {self} CallStack
      */
     CallStack.prototype.enqueue = function(handler, atIndex) {
         var handlers = (!Array.isArray(handler)) ? [handler] : ((atIndex < handler.length) ? handler.reverse() : handler);
@@ -372,7 +383,7 @@
     /**
      * Call to next item in stack -- this adds the `req`, `event`, and `next()` arguments to all middleware
      *
-     * @return {self} CallStack 
+     * @return {self} CallStack
      */
     CallStack.prototype.next = function() {
         var self = this;
